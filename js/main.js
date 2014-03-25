@@ -53,7 +53,7 @@ function manipulateForeground(rms){
   },false);
 
 
-function showUpload(input, callback){
+function showImgUpload(input, callback){
   if(input.files && input.files[0]){
       var reader = new FileReader();
       reader.onload = function (e)
@@ -72,16 +72,40 @@ function showUpload(input, callback){
   }
 }
 
+function showAudioUpload(input, callback){
+  if(input.files && input.files[0]){
+      var reader = new FileReader();
+      reader.onload = function (e)
+      {
+          audio = new Audio(e.target.result);
+
+          audio.onload = function() {
+              // access image size here
+              audio.play();
+          };
+
+
+      };
+      reader.readAsDataURL(input.files[0]);
+  }
+}
+
 var bg = document.getElementById('bg-img');
 bg.addEventListener('change',function(){
-  showUpload(bg,function(img){
+  showImgUpload(bg,function(img){
     background.style['background-image'] =  "url("+img+")";
   })
 }, false);
 
 var fg = document.getElementById('fg-img');
 fg.addEventListener('change',function(){
-  showUpload(fg,function(img){
+  showImgUpload(fg,function(img){
     foreground.setAttribute('src',img);
+  })
+}, false);
+
+var au = document.getElementById('audio');
+fg.addEventListener('change',function(){
+  showAudioUpload(au,function(au){
   })
 }, false);
