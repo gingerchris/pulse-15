@@ -1,0 +1,46 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+
+
+
+html, body{
+    margin:0;
+    padding:0;
+   height:100%;
+}
+
+.bg{
+    width:640px;
+    height:640px;
+}
+
+#create, #view{
+    float:left;
+}
+
+#create{
+    width:30%;
+    height:100%;
+}
+
+#view{
+    width:70%;
+    height:100%;
+}
+
+.upload{
+    background:grey;
+    height:50px;
+    width:90%;
+    margin:5%;
+}
+
+.upload--image{
+    height:100px;
+}
+
