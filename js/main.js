@@ -1,5 +1,14 @@
 var oldRMS = 0;
 var minDiff = 0.03;
+var audio, 
+    source,
+    wfrac,
+    duration,
+    playhead = document.getElementById('playhead'),
+    foreground = document.getElementById('foreground'),
+    background = document.getElementById('background');
+
+window.AudioContext = window.AudioContext||window.webkitAudioContext;
 
 function manipulateForeground(rms){
     foreground.style.webkitTransform = 'scale(' + (0.9+rms) + ')';
@@ -9,21 +18,28 @@ function manipulateForeground(rms){
     foreground.style.transform = 'scale(' + (0.9+rms) + ')';
 }
 
-  var ctx = new webkitAudioContext()
-    , url = 'demo/song.mp3'
-    , audio = new Audio(url)
+function createAudio(file){
+
+  var ctx = new AudioContext()
     // 2048 sample buffer, 1 channel in, 1 channel out
-    , processor = ctx.createJavaScriptNode(2048, 1, 1)
-    , source
-    , foreground = document.getElementById('foreground')
-    , background = document.getElementById('background')
+    , processor = ctx.createJavaScriptNode(2048, 1, 1);
+    
+  audio = new Audio(file);
+
+  audio.addEventListener('timeupdate',function(){
+    playhead.style['width'] = ((this.currentTime/duration) * 100) + "%";
+  },false);
 
   audio.addEventListener('canplaythrough', function(){
-    source = ctx.createMediaElementSource(audio)
-    source.connect(processor)
-    source.connect(ctx.destination)
-    processor.connect(ctx.destination)
+    source = ctx.createMediaElementSource(audio);
+    duration = source.mediaElement.duration;
+    wfrac = duration / 100;
+    source.connect(processor);
+    source.connect(ctx.destination);
+    processor.connect(ctx.destination);
   }, false);
+
+  waveform = [];
 
   // loop through PCM data and calculate average
   // volume for a given 2048 sample buffer
@@ -38,20 +54,12 @@ function manipulateForeground(rms){
     if(diff > minDiff || diff < (minDiff * -1)){
         manipulateForeground(rms);
         oldRMS = rms;
+        waveform.push(rms);
     }
     //console.log(rms);
   }
 
-  var pause = document.getElementById('pause');
-  pause.addEventListener("click",function(){
-    audio.pause();
-  },false);
-
-  var play = document.getElementById('play');
-  play.addEventListener("click",function(){
-    audio.play();
-  },false);
-
+}
 
 function showImgUpload(input, callback){
   if(input.files && input.files[0]){
@@ -77,18 +85,31 @@ function showAudioUpload(input, callback){
       var reader = new FileReader();
       reader.onload = function (e)
       {
-          audio = new Audio(e.target.result);
-
-          audio.onload = function() {
-              // access image size here
-              audio.play();
-          };
-
-
+          createAudio(e.target.result);
       };
       reader.readAsDataURL(input.files[0]);
   }
 }
+
+var playtrack = document.getElementById('playtrack');
+playtrack.addEventListener("click",function(evt){
+  var x = evt.pageX - this.offsetLeft;
+  var p = (x/this.offsetWidth)*100;
+  playhead.style['width'] = p+'%';
+  audio.currentTime = p * wfrac;
+},false);
+
+var pause = document.getElementById('pause');
+pause.addEventListener("click",function(evt){
+  audio.pause();
+  evt.preventDefault();
+},false);
+
+var play = document.getElementById('play');
+play.addEventListener("click",function(evt){
+  audio.play();
+  evt.preventDefault();
+},false);
 
 var bg = document.getElementById('bg-img');
 bg.addEventListener('change',function(){
@@ -105,7 +126,7 @@ fg.addEventListener('change',function(){
 }, false);
 
 var au = document.getElementById('audio');
-fg.addEventListener('change',function(){
+au.addEventListener('change',function(){
   showAudioUpload(au,function(au){
   })
 }, false);
