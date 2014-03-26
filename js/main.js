@@ -1,6 +1,6 @@
 var oldRMS = 0;
 var minDiff = 0.03;
-var audio, 
+var audio,
     source,
     wfrac,
     duration,
@@ -23,7 +23,7 @@ function createAudio(file){
   var ctx = new AudioContext()
     // 2048 sample buffer, 1 channel in, 1 channel out
     , processor = ctx.createJavaScriptNode(2048, 1, 1);
-    
+
   audio = new Audio(file);
 
   audio.addEventListener('timeupdate',function(){
@@ -82,6 +82,9 @@ function showImgUpload(input, callback){
 
 function showAudioUpload(input, callback){
   if(input.files && input.files[0]){
+
+      UploadFile(input.files[0]);
+
       var reader = new FileReader();
       reader.onload = function (e)
       {
@@ -89,6 +92,39 @@ function showAudioUpload(input, callback){
       };
       reader.readAsDataURL(input.files[0]);
   }
+}
+
+function UploadFile(file) {
+  console.log(file.type);
+  var xhr = new XMLHttpRequest();
+  if (xhr.upload && (file.type == "image/jpeg" || file.type == "audio/mp3")) {
+
+    // create progress bar
+    var o = $id("progress");
+    var progress = o.appendChild(document.createElement("p"));
+    progress.appendChild(document.createTextNode("upload " + file.name));
+
+
+    // progress bar
+    xhr.upload.addEventListener("progress", function(e) {
+      var pc = parseInt(100 - (e.loaded / e.total * 100));
+      progress.style.backgroundPosition = pc + "% 0";
+    }, false);
+
+    // file received/failed
+    xhr.onreadystatechange = function(e) {
+      if (xhr.readyState == 4) {
+        progress.className = (xhr.status == 200 ? "success" : "failure");
+      }
+    };
+
+    // start upload
+    xhr.open("POST", $id("upload").action, true);
+    xhr.setRequestHeader("X_FILENAME", file.name);
+    xhr.send(file);
+
+  }
+
 }
 
 var playtrack = document.getElementById('playtrack');

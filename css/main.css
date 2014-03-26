@@ -4,10 +4,6 @@
    Author's custom styles
    ========================================================================== */
 
-
-
-
-
 html, body{
     margin:0;
     padding:0;
@@ -57,4 +53,24 @@ html, body{
     border-radius:5px;
     width:10%;
     background:whitesmoke;
+}
+
+#status{
+    height:20px;
+}
+
+#upload-progress-indicator{
+    position:absolute;
+    left:0;
+    top:0;
+    background:gray;
+    height:20px;
+}
+
+#upload-status{
+    position:absolute;
+    top:0;
+    left:0;
+    height:20px;
+    z-index:5;
 }
