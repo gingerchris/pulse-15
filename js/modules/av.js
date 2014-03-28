@@ -12,6 +12,7 @@ define(['underscore'], function() {
         foreground : 0,
         background : 0,
         intensity : 0.5,
+        sensitivity : 0.05,
         loop : 0,
         drag : {
             x : 0,
@@ -38,9 +39,11 @@ define(['underscore'], function() {
           intensity.addEventListener("change",function(evt){
               av.intensity = evt.srcElement.value/100;
           });
-        },
-        setIntensity : function(intensity){
-          av.intensity = intensity;
+
+          var sensitivity = document.getElementById('sensitivity');
+          sensitivity.addEventListener("change",function(evt){
+              av.sensitivity = evt.srcElement.value/-1000;
+          });
         },
         addForeground : function(id){
             av.foreground = document.getElementById(id);
@@ -78,7 +81,7 @@ define(['underscore'], function() {
             av.foreground.style.OTransform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
             av.foreground.style.transform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
         },
-        createAudio : function(file){
+        createAudio : function(file,loop){
             var ctx = new window.AudioContext()
               // 2048 sample buffer, 1 channel in, 1 channel out
               , processor = ctx.createJavaScriptNode(2048, 1, 1);
@@ -110,6 +113,14 @@ define(['underscore'], function() {
 
             }, false);
 
+            if(loop === true){
+              av.audio.addEventListener('ended',function(){
+                av.audio.play();
+              })
+            }
+
+            av.audio.play();
+
 
             // loop through PCM data and calculate average
             // volume for a given 2048 sample buffer
@@ -121,7 +132,7 @@ define(['underscore'], function() {
               while ( i < len ) total += Math.abs( input[i++] )
               rms = Math.sqrt( total / len );
               var diff = (oldRMS - rms);
-              if(diff > minDiff || diff < (minDiff * -1)){
+              if(diff > av.sensitivity || diff < (av.sensitivity * -1)){
                   av.manipulateForeground(rms);
                   oldRMS = rms;
               }

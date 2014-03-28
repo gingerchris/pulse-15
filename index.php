@@ -113,7 +113,11 @@ $v['signature'] = $signature
                 <div>
                     <p>Drop an image here for your foreground, or click to choose one.</p>
                     <p>For best results, make it a PNG with a transparent background, 640 x 640px</p>
-                    <p class="small">A JPG or GIF would work too, but won't look as good</p>
+                    <p class="small">A JPG or GIF would work too, but might not look as good</p>
+                    <div class="demos">
+                        <div id="demo--png"></div>
+                        <div id="demo--jpg"></div>
+                    </div>
                 </div>
             </div>
 
@@ -123,7 +127,11 @@ $v['signature'] = $signature
                   <img src="" class="fg" id="createForeground" />
                 </div>
 
+                <label for="intensity">Intensity</label>
                 <input id="intensity" type="range" min="0" max="100" />
+
+                <label for="sensitivity">Sensitivity</label>
+                <input id="sensitivity" type="range" min="-100" max="0" />
 
                 <div id="playtrack"><div id="playhead"></div></div>
 

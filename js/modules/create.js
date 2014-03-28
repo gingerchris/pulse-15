@@ -18,7 +18,7 @@ define(['underscore'], function() {
             reader.onload = function(e){
                 require(['modules/av'],function(av){
                     av.init();
-                    av.createAudio(e.target.result);
+                    av.createAudio(e.target.result,true);
                 });
             }
         },
