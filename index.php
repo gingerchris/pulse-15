@@ -113,8 +113,8 @@ $v['signature'] = $signature
 
         <div id="view">
 
-            <div class="bg" style="background:url('demo/back.png')" id="createBackground">
-              <img src="demo/fore.png" class="fg" id="createForeground" />
+            <div class="bg" id="createBackground">
+              <img src="" class="fg" id="createForeground" />
             </div>
 
         </div>
