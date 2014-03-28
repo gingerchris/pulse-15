@@ -11,6 +11,8 @@ define(['underscore'], function() {
         playtrack : document.getElementById('playtrack'),
         foreground : 0,
         background : 0,
+        intensity : 0.5,
+        loop : 0,
         drag : {
             x : 0,
             y : 0
@@ -18,6 +20,27 @@ define(['underscore'], function() {
         fgPos : {
             x : 0,
             y : 0
+        },
+        init : function(){
+          var pause = document.getElementById('pause');
+          pause.addEventListener("click",function(evt){
+            av.audio.pause();
+            evt.preventDefault();
+          },false);
+
+          var play = document.getElementById('play');
+          play.addEventListener("click",function(evt){
+            av.audio.play();
+            evt.preventDefault();
+          },false);
+
+          var intensity = document.getElementById('intensity');
+          intensity.addEventListener("change",function(evt){
+              av.intensity = evt.srcElement.value/100;
+          });
+        },
+        setIntensity : function(intensity){
+          av.intensity = intensity;
         },
         addForeground : function(id){
             av.foreground = document.getElementById(id);
@@ -49,11 +72,11 @@ define(['underscore'], function() {
             av.foreground.style['margin-top'] = top+'px';
         },
         manipulateForeground : function(rms){
-            av.foreground.style.webkitTransform = 'scale(' + (0.9+rms) + ')';
-            av.foreground.style.MozTransform = 'scale(' + (0.9+rms) + ')';
-            av.foreground.style.msTransform = 'scale(' + (0.9+rms) + ')';
-            av.foreground.style.OTransform = 'scale(' + (0.9+rms) + ')';
-            av.foreground.style.transform = 'scale(' + (0.9+rms) + ')';
+            av.foreground.style.webkitTransform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
+            av.foreground.style.MozTransform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
+            av.foreground.style.msTransform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
+            av.foreground.style.OTransform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
+            av.foreground.style.transform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
         },
         createAudio : function(file){
             var ctx = new window.AudioContext()
@@ -69,7 +92,6 @@ define(['underscore'], function() {
 
 
             //set up playhead skipping from the playtrack
-            console.log(av.playhead);
             av.playtrack.addEventListener("click",function(evt){
               var x = evt.pageX - this.offsetLeft;
               var p = (x/this.offsetWidth)*100;
@@ -86,7 +108,6 @@ define(['underscore'], function() {
               av.source.connect(ctx.destination);
               processor.connect(ctx.destination);
 
-              av.audio.play();
             }, false);
 
 

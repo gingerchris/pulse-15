@@ -17,19 +17,8 @@ define(['underscore'], function() {
             reader.readAsDataURL(audio.file);
             reader.onload = function(e){
                 require(['modules/av'],function(av){
+                    av.init();
                     av.createAudio(e.target.result);
-
-                    var pause = document.getElementById('pause');
-                    pause.addEventListener("click",function(evt){
-                      av.audio.pause();
-                      evt.preventDefault();
-                    },false);
-
-                    var play = document.getElementById('play');
-                    play.addEventListener("click",function(evt){
-                      av.audio.play();
-                      evt.preventDefault();
-                    },false);
                 });
             }
         },
@@ -74,6 +63,7 @@ define(['underscore'], function() {
                 require(['modules/av'],function(av){
                     av.addBackground('createBackground');
                     av.setBackground('url('+e.target.result+')');
+                    document.getElementById('fg-upload').style['background-image'] = 'url('+e.target.result+')';
                 });
             };
         }
@@ -115,6 +105,30 @@ define(['underscore'], function() {
         }
     }
 
+    var create = {
+        showTrim : function(){
+            require(['modules/eppzscroll'],function(scr){
+                scr.showAndScrollTo('audio-trim', 0);
+                trim.init();
+            });
+        },
+        showBG : function(){
+            require(['modules/eppzscroll'],function(scr){
+                scr.showAndScrollTo('bg-upload', 0);
+            });
+        },
+        showFG : function(){
+            require(['modules/eppzscroll'],function(scr){
+                scr.showAndScrollTo('fg-upload', 0);
+            });
+        },
+        showPreview : function(){
+            require(['modules/eppzscroll'],function(scr){
+                scr.showAndScrollTo('create-finalise', 0);
+            });
+        }
+    }
+
     return {
         initAudio : function(){
 
@@ -123,6 +137,7 @@ define(['underscore'], function() {
               if(audio.validate(this)){
                 //file type is good - begin processing
                 audio.process(audio.file);
+                create.showBG();
               }else{
                 //invalid file type - show error and reset input
               }
@@ -137,6 +152,7 @@ define(['underscore'], function() {
                 if(image.validate(this)){
                     //image is good - put it in place and upload
                     image.setForeground(image.fgInput.files[0]);
+                    create.showPreview();
                 }else{
                     //invalid file type
                 }
@@ -146,6 +162,7 @@ define(['underscore'], function() {
                 if(image.validate(this)){
                     //image is good - put it in place and upload
                     image.setBackground(image.bgInput.files[0]);
+                    create.showFG();
                 }else{
                     //invalid file type
                 }

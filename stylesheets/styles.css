@@ -1,0 +1,96 @@
+/* line 9, ../sass/styles.scss */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 16, ../sass/styles.scss */
+.create {
+  width: 100%;
+  height: 100%;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 5%;
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+}
+/* line 24, ../sass/styles.scss */
+.create:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em;
+  /* Adjusts for spacing */
+}
+/* line 31, ../sass/styles.scss */
+.create div {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
+  color: white;
+  text-shadow: rgba(0, 0, 0, 0.8) 0 0 5px;
+}
+
+/* line 40, ../sass/styles.scss */
+.hide {
+  display: none;
+}
+
+/* line 44, ../sass/styles.scss */
+input[type=file] {
+  font-size: 100000px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 53, ../sass/styles.scss */
+#audio-upload {
+  background: #ff6200;
+}
+
+/* line 57, ../sass/styles.scss */
+#audio-trim {
+  background: #00786c;
+}
+
+/* line 61, ../sass/styles.scss */
+#bg-upload {
+  background: #e81a4a;
+}
+
+/* line 65, ../sass/styles.scss */
+#fg-upload {
+  background: #979c08;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* line 71, ../sass/styles.scss */
+#create-finalise {
+  background: #361d19;
+}
+
+/* line 75, ../sass/styles.scss */
+#view {
+  background: rgba(0, 0, 0, 0.2);
+  position: fixed;
+  bottom: 0px;
+  left: 50%;
+  width: 640px;
+  height: 640px;
+  margin-left: -320px;
+}
+
+/* line 85, ../sass/styles.scss */
+#createBackground {
+  width: 640px;
+  height: 640px;
+}

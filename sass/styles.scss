@@ -1,0 +1,88 @@
+@import "compass";
+
+$orange : #FF6200;
+$pink : #E81A4A;
+$green : #979C08;
+$green2 : #00786C;
+$brown : #361D19;
+
+html, body{
+    width:100%;
+    height:100%;
+    margin:0;
+    padding:0;
+}
+
+.create{
+    width:100%;
+    height:100%;
+    @include box-sizing(border-box);
+    padding:5%;
+    overflow:hidden;
+    text-align: center;
+    position:relative;
+    &:before {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+      margin-right: -0.25em; /* Adjusts for spacing */
+    }
+    div{
+        display:inline-block;
+        vertical-align:middle;
+        width:100%;
+        color:white;
+        @include text-shadow(rgba(black, 0.8) 0 0 5px);
+    }
+}
+
+.hide{
+    display:none;
+}
+
+input[type=file]{
+    font-size:100000px;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+#audio-upload{
+    background:$orange;
+}
+
+#audio-trim{
+    background:$green2;
+}
+
+#bg-upload{
+    background:$pink;
+}
+
+#fg-upload{
+    background:$green;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+
+#create-finalise{
+    background:$brown;
+}
+
+#view{
+    background:rgba(0,0,0,0.2);
+    position:fixed;
+    bottom:0px;
+    left:50%;
+    width:640px;
+    height:640px;
+    margin-left:-320px;
+}
+
+#createBackground{
+    width:640px;
+    height:640px;
+}
