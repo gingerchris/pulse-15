@@ -1,17 +1,21 @@
 @import "compass";
 
-$orange : #FF6200;
-$pink : #E81A4A;
-$green : #979C08;
-$green2 : #00786C;
-$brown : #361D19;
+$colours : #9DE1CA #A378AE #525E78 #F9FBFF #AE4E28;
 
 html, body{
     width:100%;
     height:100%;
     margin:0;
     padding:0;
+
+    font-family: Arial, sans-serif;
+
 }
+
+p{
+    font-size:20px;
+}
+
 
 .create{
     width:100%;
@@ -33,7 +37,7 @@ html, body{
         vertical-align:middle;
         width:100%;
         color:white;
-        @include text-shadow(rgba(black, 0.8) 0 0 5px);
+        @include text-shadow(rgba(black, 0.8) 0 0 5px,rgba(black, 0.8) 0 0 5px,rgba(black, 0.8) 0 0 5px);
     }
 }
 
@@ -51,25 +55,25 @@ input[type=file]{
 }
 
 #audio-upload{
-    background:$orange;
+    background:nth($colours, 1);
 }
 
 #audio-trim{
-    background:$green2;
+    background:nth($colours, 2);
 }
 
 #bg-upload{
-    background:$pink;
+    background:nth($colours, 3);
 }
 
 #fg-upload{
-    background:$green;
+    background:nth($colours, 2);
     background-position:center center;
     background-repeat:no-repeat;
 }
 
 #create-finalise{
-    background:$brown;
+    background:nth($colours, 4);
 }
 
 #view{

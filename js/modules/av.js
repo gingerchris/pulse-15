@@ -75,11 +75,13 @@ define(['underscore'], function() {
             av.foreground.style['margin-top'] = top+'px';
         },
         manipulateForeground : function(rms){
+          if(av.foreground !== 0){
             av.foreground.style.webkitTransform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
             av.foreground.style.MozTransform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
             av.foreground.style.msTransform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
             av.foreground.style.OTransform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
             av.foreground.style.transform = 'scale(' + (0.9+(rms*av.intensity)) + ')';
+          }
         },
         createAudio : function(file,loop){
             var ctx = new window.AudioContext()
